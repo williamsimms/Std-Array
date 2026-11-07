@@ -24,7 +24,7 @@ struct Array final {
   SizeType size{N};
   ValueType data[N];
 
-  // Length and Size
+  // Capacity
   [[nodiscard]] constexpr SizeType Size() const noexcept { return this->size; }
   [[nodiscard]] constexpr SizeType Length() const noexcept {
     return this->size;
@@ -32,35 +32,31 @@ struct Array final {
   [[nodiscard]] constexpr bool Empty() const noexcept { return size == 0; }
   [[nodiscard]] constexpr SizeType MaxSize() const noexcept { return N; }
 
-  // Return Pointer to Data
-  PointerType constexpr Data() noexcept { return this->data; }
-  ConstPointerType constexpr Data() const noexcept { return this->data; }
+  // Pointer to Data
+  [[nodiscard]] PointerType constexpr Data() noexcept { return this->data; }
+  [[nodiscard]] ConstPointerType constexpr Data() const noexcept {
+    return this->data;
+  }
 
+  // Element Access
   // Bounds Checked Element Access
   [[nodiscard]] ConstReferenceType At(SizeType index) const noexcept(false) {
-    if (index >= size) {
+    if (index >= size || index < 0) {
       throw std::out_of_range("Index out of range");
-    }
-
-    if (index < 0) {
-      throw std::out_of_range("Index cannot be negative");
     }
 
     return data[index];
   }
 
   [[nodiscard]] ReferenceType At(SizeType index) noexcept(false) {
-    if (index >= size) {
+    if (index >= size || index < 0) {
       throw std::out_of_range("Index out of range");
-    }
-
-    if (index < 0) {
-      throw std::out_of_range("Index cannot be negative");
     }
 
     return data[index];
   }
 
+  // Overloaded Operator [] - Element Access Without Bounds Checking
   [[nodiscard]] ConstReferenceType operator[](SizeType index) const noexcept {
     return data[index];
   }
@@ -69,9 +65,11 @@ struct Array final {
     return data[index];
   }
 
+  // Front Element Access
   [[nodiscard]] ReferenceType Front() { return data[0]; }
   [[nodiscard]] ConstReferenceType Front() const { return data[0]; }
 
+  // Back Element Access
   [[nodiscard]] ReferenceType Back() { return data[size - 1]; }
   [[nodiscard]] ConstReferenceType Back() const { return data[size - 1]; }
 
