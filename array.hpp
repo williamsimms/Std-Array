@@ -21,15 +21,12 @@ struct Array final {
   using ConstReverseIteratorType = std::reverse_iterator<ConstIteratorType>;
 
   // Data Members
-  SizeType size{N};
   ValueType data[N];
 
   // Capacity
-  [[nodiscard]] constexpr SizeType Size() const noexcept { return this->size; }
-  [[nodiscard]] constexpr SizeType Length() const noexcept {
-    return this->size;
-  }
-  [[nodiscard]] constexpr bool Empty() const noexcept { return size == 0; }
+  [[nodiscard]] constexpr SizeType Size() const noexcept { return N; }
+  [[nodiscard]] constexpr SizeType Length() const noexcept { return N; }
+  [[nodiscard]] constexpr bool Empty() const noexcept { return N == 0; }
   [[nodiscard]] constexpr SizeType MaxSize() const noexcept { return N; }
 
   // Pointer to Data
@@ -41,7 +38,7 @@ struct Array final {
   // Element Access
   // Bounds Checked Element Access
   [[nodiscard]] ConstReferenceType At(SizeType index) const noexcept(false) {
-    if (index >= size || index < 0) {
+    if (index >= N || index < 0) {
       throw std::out_of_range("Index out of range");
     }
 
@@ -49,7 +46,7 @@ struct Array final {
   }
 
   [[nodiscard]] ReferenceType At(SizeType index) noexcept(false) {
-    if (index >= size || index < 0) {
+    if (index >= N || index < 0) {
       throw std::out_of_range("Index out of range");
     }
 
@@ -70,17 +67,17 @@ struct Array final {
   [[nodiscard]] ConstReferenceType Front() const { return data[0]; }
 
   // Back Element Access
-  [[nodiscard]] ReferenceType Back() { return data[size - 1]; }
-  [[nodiscard]] ConstReferenceType Back() const { return data[size - 1]; }
+  [[nodiscard]] ReferenceType Back() { return data[N - 1]; }
+  [[nodiscard]] ConstReferenceType Back() const { return data[N - 1]; }
 
   // Iterators
   IteratorType Begin() noexcept { return data; }
   ConstIteratorType Begin() const noexcept { return data; }
   ConstIteratorType CBegin() const noexcept { return data; }
 
-  IteratorType End() noexcept { return data + size; }
-  ConstIteratorType End() const noexcept { return data + size; }
-  ConstIteratorType CEnd() const noexcept { return data + size; }
+  IteratorType End() noexcept { return data + N; }
+  ConstIteratorType End() const noexcept { return data + N; }
+  ConstIteratorType CEnd() const noexcept { return data + N; }
 
   ReverseIteratorType RBegin() noexcept {
     return ReverseIteratorType(this->End());
@@ -107,13 +104,13 @@ struct Array final {
   }
 
   void Fill(ConstReferenceType value) noexcept {
-    for (SizeType i = 0; i < size; ++i) {
+    for (SizeType i = 0; i < N; ++i) {
       data[i] = value;
     }
   }
 
   void Swap(Array& other) noexcept {
-    for (SizeType i = 0; i < size; ++i) {
+    for (SizeType i = 0; i < N; ++i) {
       std::swap(data[i], other.data[i]);
     }
   }
@@ -143,6 +140,3 @@ template <typename T, std::size_t N>
 void Swap(Array<T, N>& lhs, Array<T, N>& rhs) {
   lhs.Swap(rhs);
 }
-
-// data[0] [1] [2] [3] [4]
-// data, data + 1, data + 2, data + 3, data + 4, data + 5
