@@ -1,24 +1,60 @@
 #include <iostream>
-#include <utility>
+#include <stdexcept>
 
 template <typename T, std::size_t N>
-class Array final {
+struct Array final {
   using ValueType = T;
+  using PointerType = T*;
+  using ReferenceType = T&;
 
-  // Default Constructor
-  Array() {
+  using ConstType = const T;
+  using ConstPointerType = const T*;
+  using ConstReferenceType = const T&;
+
+  using SizeType = std::size_t;
+
+  SizeType size{N};
+  ValueType data[N];
+
+  SizeType Size() const { return this->size; }
+
+  SizeType Length() const { return this->size; }
+
+  ValueType* Data() { return this->data; }
+
+  ReferenceType At(SizeType index) {
     //
   }
 
-  // Copy Constructor
-  Array(const Array&) {
-    //
+  ConstReferenceType At(SizeType index) const {
+    if (index >= size) {
+      throw std::out_of_range("Index out of range");
+    }
+
+    if (index < 0) {
+      throw std::out_of_range("Index cannot be negative");
+    }
+
+    return data[index];
   }
 
-  Array(Array&&) noexcept {
-    //
+  ConstReferenceType operator[](SizeType index) const {
+    if (index >= size) {
+      throw std::out_of_range("Index out of range");
+    }
+
+    if (index < 0) {
+      throw std::out_of_range("Index cannot be negative");
+    }
+
+    return data[index];
   }
 
- private:
-  std::size_t size;
+  bool Empty() const { return size == 0; }
+
+  void Fill(ConstReferenceType value) {
+    for (SizeType i = 0; i < size; ++i) {
+      data[i] = value;
+    }
+  }
 };
