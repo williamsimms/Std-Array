@@ -1,4 +1,6 @@
-#include <array.hpp>
+// #include <array.hpp>
+#pragma once
+
 #include <iostream>
 
 class ArrayIterator {
