@@ -1,5 +1,4 @@
 #pragma once
-
 #include <stdexcept>
 
 template <typename T, std::size_t N>
@@ -130,4 +129,35 @@ struct Array final {
       data[i] = value;
     }
   }
+
+  void Swap(Array& other) noexcept {
+    for (SizeType i = 0; i < size; ++i) {
+      std::swap(data[i], other.data[i]);
+    }
+  }
 };
+
+template <typename T, std::size_t N>
+bool operator==(const Array<T, N>& lhs, const Array<T, N>& rhs) {
+  for (std::size_t i = 0; i < N; ++i) {
+    if (lhs[i] != rhs[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+template <typename T, std::size_t N>
+bool operator!=(const Array<T, N>& lhs, const Array<T, N>& rhs) {
+  return !(lhs == rhs);
+}
+
+template <typename T, std::size_t N>
+T& Get(Array<T, N>& arr, std::size_t index) {
+  return arr.At(index);
+}
+
+template <typename T, std::size_t N>
+void Swap(Array<T, N>& lhs, Array<T, N>& rhs) {
+  lhs.Swap(rhs);
+}
