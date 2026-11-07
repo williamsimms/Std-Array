@@ -1,8 +1,10 @@
 #pragma once
-#include <cstddef>      // size_t, ptrdiff_t
-#include <stdexcept>    // out_of_range
-#include <type_traits>  // is_nothrow_swappable_v
-#include <utility>      // std::swap
+
+#include <cstddef>
+#include <iterator>
+#include <stdexcept>
+#include <type_traits>
+#include <utility>
 
 template <typename T, std::size_t N>
 struct Array {
@@ -112,7 +114,7 @@ struct Array {
     }
   }
 
-  void Swap(Array& other) noexcept(std::is_nothrow_swappable_v<T>) {
+  void Swap(Array& other) noexcept {
     for (SizeType i = 0; i < N; ++i) {
       std::swap(data[i], other.data[i]);
     }
@@ -130,7 +132,7 @@ bool operator==(const Array<T, N>& lhs, const Array<T, N>& rhs) {
 }
 
 template <typename T, std::size_t N>
-bool operator!=(const Array<T, N>& lhs, const Array<T, N>& rhs) {
+auto operator!=(const Array<T, N>& lhs, const Array<T, N>& rhs) -> bool {
   return !(lhs == rhs);
 }
 
