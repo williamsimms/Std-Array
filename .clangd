@@ -1,0 +1,5 @@
+CompileFlags:
+  Add: [-std=c23, -Wall]
+Diagnostics:
+  ClangTidy:
+    Add: [performance-*, bugprone-*, modernize-*]

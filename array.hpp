@@ -1,8 +1,11 @@
 #pragma once
-#include <stdexcept>
+#include <cstddef>      // size_t, ptrdiff_t
+#include <stdexcept>    // out_of_range
+#include <type_traits>  // is_nothrow_swappable_v
+#include <utility>      // std::swap
 
 template <typename T, std::size_t N>
-struct Array final {
+struct Array {
   using ValueType = T;
   using PointerType = T*;
   using ReferenceType = T&;
@@ -63,12 +66,12 @@ struct Array final {
   }
 
   // Front Element Access
-  [[nodiscard]] ReferenceType Front() { return data[0]; }
-  [[nodiscard]] ConstReferenceType Front() const { return data[0]; }
+  [[nodiscard]] ReferenceType Front() noexcept { return data[0]; }
+  [[nodiscard]] ConstReferenceType Front() const noexcept { return data[0]; }
 
   // Back Element Access
-  [[nodiscard]] ReferenceType Back() { return data[N - 1]; }
-  [[nodiscard]] ConstReferenceType Back() const { return data[N - 1]; }
+  [[nodiscard]] ReferenceType Back() noexcept { return data[N - 1]; }
+  [[nodiscard]] ConstReferenceType Back() const noexcept { return data[N - 1]; }
 
   // Iterators
   IteratorType Begin() noexcept { return data; }
@@ -109,7 +112,7 @@ struct Array final {
     }
   }
 
-  void Swap(Array& other) noexcept {
+  void Swap(Array& other) noexcept(std::is_nothrow_swappable_v<T>) {
     for (SizeType i = 0; i < N; ++i) {
       std::swap(data[i], other.data[i]);
     }
@@ -129,11 +132,6 @@ bool operator==(const Array<T, N>& lhs, const Array<T, N>& rhs) {
 template <typename T, std::size_t N>
 bool operator!=(const Array<T, N>& lhs, const Array<T, N>& rhs) {
   return !(lhs == rhs);
-}
-
-template <typename T, std::size_t N>
-T& Get(Array<T, N>& arr, std::size_t index) {
-  return arr.At(index);
 }
 
 template <typename T, std::size_t N>

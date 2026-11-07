@@ -1,0 +1,9 @@
+-std=c23
+-Wall
+-Wextra
+-Wpedantic
+-Wconversion
+-Wshadow
+-Wdouble-promotion
+-Wformat=2
+-Wundef
