@@ -1,26 +1,39 @@
-# arr - Custom std::array Implementation
+# Array - Custom std::array Implementation
 
 A from-scratch implementation of `std::array<T, N>` in C++ for learning purposes. Zero-overhead, constexpr, STL-compatible.
 
-`std::array` is deceptively simple. It's just `T[N]` but with value semantics, iterators, bounds-checking, and aggregate initialization. Re-implementing it teaches you aggregates, constexpr, iterators, SFINAE/noexcept, and reverse iterators.
+`std::array` is deceptively simple. It is `T[N]` but with value semantics, iterators, bounds-checking, and aggregate initialization. Re-implementing it teaches you aggregates, constexpr, iterators, noexcept, and reverse iterators. No need for constructors or iterator classes.
 
 ### Features
 
-- Aggregate-compatible (no user-declared constructors in correct version)
+Data Members
+
+```cpp
+ValueType data[N];
+```
+
+- Aggregate-compatible (no user declared constructors in correct version)
 - `constexpr` everywhere
-- Full element access: `at()`, `operator[]`, `front()`, `back()`, `data()`
+
+- Full element access: `At()`, `operator[]`, `Front()`, `Back()`, `Data()`
+
 - Full iterators: `begin/end`, `cbegin/cend`, `rbegin/rend`, `crbegin/crend`
+
 - Capacity: `size()`, `max_size()`, `empty()`
+
 - Modifiers: `fill()`, `swap()`
+
 - Non-member: `operator==`,, `std::swap`, tuple interface
 
 ````
 #### Type aliases
+
 ```cpp
-value_type, size_type, difference_type
-reference, const_reference, pointer, const_pointer
-iterator, const_iterator, reverse_iterator, const_reverse_iterator
-````
+ValueType, PointerType, ReferenceType
+ConstType, ConstReference, ConstPointer
+Iterator, Const Iterator
+Reverse Iterator, ConstReverseIterator
+```
 
 #### Constructors - NONE
 
@@ -61,9 +74,10 @@ reverse_iterator rbegin() noexcept; const_reverse_iterator rbegin() const noexce
 reverse_iterator rend() noexcept; const_reverse_iterator rend() const noexcept; const_reverse_iterator crend() const noexcept;
 
 // Capacity
-constexpr bool empty() const noexcept;
-constexpr size_type size() const noexcept;
-constexpr size_type max_size() const noexcept;
+constexpr bool Empty() const noexcept;
+constexpr size_type Size() const noexcept;
+constexpr size_type Length() const noexcept;
+constexpr size_type MaxSize() const noexcept;
 
 // Operations
 void fill(const T& value);
@@ -73,30 +87,8 @@ void swap(arr& other) noexcept(is_nothrow_swappable_v<T>);
 #### Non-member
 
 ```cpp
-get<I>(arr)
-operator==, operator<=> (C++20)
-swap(arr&, arr&)
-tuple_size, tuple_element
+operator==,
+operator!=,
+Swap(arr&, arr&)
 ```
-
-### Usage
-
-```cpp
-#include "arr.hpp"
-
-arr<int, 3> a = {1, 2, 3};
-arr<int, 3> b{{4, 5, 6}};
-
-a[0] = 10;
-a.at(1) = 20;
-a.front(); // 10
-a.back();  // 3
-a.data();  // int*
-a.size();  // 3
-a.empty(); // false
-
-a.fill(0);
-for (auto& x : a) x++;
-
-std::sort(a.begin(), a.end());
-```
+````
