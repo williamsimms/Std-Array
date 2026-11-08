@@ -75,36 +75,36 @@ struct Array {
   [[nodiscard]] ConstReferenceType Back() const noexcept { return data[N - 1]; }
 
   // Iterators
-  IteratorType Begin() noexcept { return data; }
-  ConstIteratorType Begin() const noexcept { return data; }
-  ConstIteratorType CBegin() const noexcept { return data; }
+  IteratorType begin() noexcept { return data; }
+  ConstIteratorType begin() const noexcept { return data; }
+  ConstIteratorType cbegin() const noexcept { return data; }
 
-  IteratorType End() noexcept { return data + N; }
-  ConstIteratorType End() const noexcept { return data + N; }
-  ConstIteratorType CEnd() const noexcept { return data + N; }
+  IteratorType end() noexcept { return data + N; }
+  ConstIteratorType end() const noexcept { return data + N; }
+  ConstIteratorType cend() const noexcept { return data + N; }
 
-  ReverseIteratorType RBegin() noexcept {
-    return ReverseIteratorType(this->End());
+  ReverseIteratorType rbegin() noexcept {
+    return ReverseIteratorType(this->end());
   }
 
-  ConstReverseIteratorType RBegin() const noexcept {
-    return ConstReverseIteratorType(this->End());
+  ConstReverseIteratorType rbegin() const noexcept {
+    return ConstReverseIteratorType(this->end());
   }
 
-  ConstReverseIteratorType CRBegin() const noexcept {
-    return ConstReverseIteratorType(this->End());
+  ConstReverseIteratorType crbegin() const noexcept {
+    return ConstReverseIteratorType(this->end());
   }
 
-  ReverseIteratorType REnd() noexcept {
-    return ReverseIteratorType(this->Begin());
+  ReverseIteratorType rend() noexcept {
+    return ReverseIteratorType(this->begin());
   }
 
-  ConstReverseIteratorType REnd() const noexcept {
-    return ConstReverseIteratorType(this->Begin());
+  ConstReverseIteratorType rend() const noexcept {
+    return ConstReverseIteratorType(this->begin());
   }
 
-  ConstReverseIteratorType CREnd() const noexcept {
-    return ConstReverseIteratorType(this->Begin());
+  ConstReverseIteratorType crend() const noexcept {
+    return ConstReverseIteratorType(this->begin());
   }
 
   void Fill(ConstReferenceType value) noexcept {
