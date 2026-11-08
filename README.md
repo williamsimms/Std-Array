@@ -1,6 +1,6 @@
 # Array - Custom std::array Implementation
 
-A from-scratch implementation of `std::array<T, N>` in C++ for learning purposes. Zero-overhead, constexpr, STL-compatible.
+A from-scratch implementation of `std::array<T, N>` in C++ for learning purposes. Zero-overhead, constexpr
 
 `std::array` is deceptively simple. It is `T[N]` but with value semantics, iterators, bounds-checking, and aggregate initialization. Re-implementing it teaches you aggregates, constexpr, iterators, noexcept, and reverse iterators. No need for constructors or iterator classes.
 
@@ -25,24 +25,29 @@ ValueType data[N];
 
 - Non-member: `operator==`,, `std::swap`, tuple interface
 
-````
 #### Type aliases
 
 ```cpp
-ValueType, PointerType, ReferenceType
-ConstType, ConstReference, ConstPointer
-Iterator, Const Iterator
-Reverse Iterator, ConstReverseIterator
-```
+ValueType
+PointerType
+ReferenceType
 
-#### Constructors - NONE
+ConstType
+ConstReference
+ConstPointer
+
+Iterator
+Const Iterator
+Reverse Iterator
+ConstReverseIterator
+```
 
 `std::array` is an aggregate. No constructors.
 
 ```cpp
 template<typename T, size_t N>
 struct arr {
-    T elems[N]; // only member
+    T elems[N];
 };
 ```
 
@@ -55,33 +60,49 @@ Compiler implicitly generates:
 - `constexpr arr& operator=(arr&&) = default;`
 - `constexpr ~arr() = default;`
 
-#### Methods
+### Methods
 
 ```cpp
-// Element access
-reference at(size_type);
-const_reference at(size_type) const; // throws std::out_of_range
-reference operator[](size_type);
-const_reference operator[](size_type) const;
-reference front(); const_reference front() const;
-reference back(); const_reference back() const;
-pointer data() noexcept; const_pointer data() const noexcept;
-
-// Iterators
-iterator begin() noexcept; const_iterator begin() const noexcept; const_iterator cbegin() const noexcept;
-iterator end() noexcept; const_iterator end() const noexcept; const_iterator cend() const noexcept;
-reverse_iterator rbegin() noexcept; const_reverse_iterator rbegin() const noexcept; const_reverse_iterator crbegin() const noexcept;
-reverse_iterator rend() noexcept; const_reverse_iterator rend() const noexcept; const_reverse_iterator crend() const noexcept;
-
 // Capacity
 constexpr bool Empty() const noexcept;
 constexpr size_type Size() const noexcept;
 constexpr size_type Length() const noexcept;
 constexpr size_type MaxSize() const noexcept;
 
+// Pointer to Data
+PointerType Data() noexcept;
+ConstPointerType Data() const noexcept;
+
+// Element access
+ReferenceType At(SizeType); //  Bounds Checked -> throws std::out_of_range
+ConstReferenceType At(SizeType) const; // Bounds Checked -> throws std::out_of_range
+ReferenceType operator[](SizeType);
+ConstReferenceType operator[](SizeType) const;
+ReferenceType Front();
+ConstReferenceType Front() const;
+ReferenceType Back();
+ConstReferenceType Back() const;
+
+// Iterators
+IteratorType begin() noexcept;
+const_iterator begin() const noexcept;
+ConstIteratorType cbegin() const noexcept;
+
+iterator end() noexcept;
+const_iterator end() const noexcept;
+const_iterator cend() const noexcept;
+
+ReverseIteratorType rbegin() noexcept;
+const_reverse_iterator rbegin() const noexcept;
+const_reverse_iterator crbegin() const noexcept;
+
+reverse_iterator rend() noexcept;
+const_reverse_iterator rend() const noexcept;
+const_reverse_iterator crend() const noexcept;
+
 // Operations
-void fill(const T& value);
-void swap(arr& other) noexcept(is_nothrow_swappable_v<T>);
+void Fill(const T& value);
+void Swap(arr& other) noexcept;
 ```
 
 #### Non-member
@@ -91,4 +112,3 @@ operator==,
 operator!=,
 Swap(arr&, arr&)
 ```
-````
