@@ -2,8 +2,6 @@
 
 A from-scratch implementation of `std::array<T, N>` in C++ for learning purposes. Zero-overhead, constexpr, STL-compatible.
 
-### Why?
-
 `std::array` is deceptively simple. It's just `T[N]` but with value semantics, iterators, bounds-checking, and aggregate initialization. Re-implementing it teaches you aggregates, constexpr, iterators, SFINAE/noexcept, and reverse iterators.
 
 ### Features
@@ -14,30 +12,19 @@ A from-scratch implementation of `std::array<T, N>` in C++ for learning purposes
 - Full iterators: `begin/end`, `cbegin/cend`, `rbegin/rend`, `crbegin/crend`
 - Capacity: `size()`, `max_size()`, `empty()`
 - Modifiers: `fill()`, `swap()`
-- Non-member: `get<I>()`, `operator==`, `operator<=>`, `std::swap`, tuple interface
-- Handles `N == 0` edge case
+- Non-member: `operator==`,, `std::swap`, tuple interface
 
-### Project Structure
-
-```
-/include
-  arr.hpp      -> your implementation
-/tests
-  test.cpp     -> tests
-README.md
-```
-
-### API - What You Need To Implement
-
+````
 #### Type aliases
 ```cpp
 value_type, size_type, difference_type
 reference, const_reference, pointer, const_pointer
 iterator, const_iterator, reverse_iterator, const_reverse_iterator
-```
+````
 
 #### Constructors - NONE
-`std::array` is an aggregate. Do not declare constructors.
+
+`std::array` is an aggregate. No constructors.
 
 ```cpp
 template<typename T, size_t N>
@@ -47,6 +34,7 @@ struct arr {
 ```
 
 Compiler implicitly generates:
+
 - `constexpr arr() = default;` // default-initializes (uninitialized for POD)
 - `constexpr arr(const arr&) = default;`
 - `constexpr arr(arr&&) = default;`
@@ -55,6 +43,7 @@ Compiler implicitly generates:
 - `constexpr ~arr() = default;`
 
 #### Methods
+
 ```cpp
 // Element access
 reference at(size_type);
@@ -82,6 +71,7 @@ void swap(arr& other) noexcept(is_nothrow_swappable_v<T>);
 ```
 
 #### Non-member
+
 ```cpp
 get<I>(arr)
 operator==, operator<=> (C++20)
@@ -110,35 +100,3 @@ for (auto& x : a) x++;
 
 std::sort(a.begin(), a.end());
 ```
-
-### Build & Test
-
-```bash
-g++ -std=c++20 -Wall -Wextra -pedantic -Iinclude tests/test.cpp -o test
-./test
-```
-
-### Implementation Checklist
-
-- [ ] Type aliases + internal array `T elems[N]`
-- [ ] `data()`, `size()`, `operator[]`
-- [ ] `begin()`, `end()` -> enables range-for
-- [ ] `front()`, `back()`, `at()` with bounds check
-- [ ] `cbegin/cend`, `rbegin/rend`, `crbegin/crend`
-- [ ] `fill()`, `empty()`, `max_size()`
-- [ ] `swap()`
-- [ ] Non-member `get`, comparison operators
-- [ ] Test `N=0` specialization
-- [ ] Make everything `constexpr` and `noexcept` where std does
-
-### Notes on std::array quirks
-
-1. `arr<int, 3> a;` -> elements UNINITIALIZED
-2. `arr<int, 3> a{};` -> elements VALUE-INITIALIZED (zero)
-3. Double braces needed: `arr<int, 3> a{{1,2,3}}` because aggregate contains array
-4. `at()` throws, `operator[]` doesn't
-5. No dynamic allocation
-
-### License
-
-MIT - Do whatever you want, it's for practice.

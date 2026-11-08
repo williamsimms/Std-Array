@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <iterator>
 #include <stdexcept>
-#include <type_traits>
 #include <utility>
 
 template <typename T, std::size_t N>
