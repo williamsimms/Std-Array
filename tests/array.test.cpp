@@ -3,7 +3,7 @@
 #include "../catch.hpp"
 
 // ============================================================
-// Capacity - still PascalCase in your Array
+// Capacity
 // ============================================================
 TEST_CASE("Size / Length / MaxSize / Empty") {
   Array<int, 3> a = {1, 2, 3};
@@ -21,7 +21,7 @@ TEST_CASE("Size / Length / MaxSize / Empty") {
 }
 
 // ============================================================
-// Data / At / operator[] / Front / Back - still PascalCase
+// Data / At / operator[] / Front / Back
 // ============================================================
 TEST_CASE("Data") {
   Array<int, 3> a = {10, 20, 30};
@@ -82,7 +82,7 @@ TEST_CASE("Front / Back") {
 }
 
 // ============================================================
-// Iterators - NOW LOWERCASE (from your screenshot)
+// Iterators
 // ============================================================
 TEST_CASE("begin / end") {
   Array<int, 3> a = {1, 2, 3};

@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <utility>
 
-template <typename T, std::size_t N>
+template <typename T, std::size_t N = 0>
 struct Array {
   using ValueType = T;
   using PointerType = T*;
@@ -28,10 +28,12 @@ struct Array {
   ValueType data[N];
 
   // Capacity
-  [[nodiscard]] constexpr SizeType Size() const noexcept { return N; }
-  [[nodiscard]] constexpr SizeType Length() const noexcept { return N; }
-  [[nodiscard]] constexpr bool Empty() const noexcept { return N == 0; }
-  [[nodiscard]] constexpr SizeType MaxSize() const noexcept { return N; }
+  [[nodiscard]] constexpr auto Size() const noexcept -> SizeType { return N; }
+  [[nodiscard]] constexpr auto Length() const noexcept -> SizeType { return N; }
+  [[nodiscard]] constexpr auto Empty() const noexcept -> bool { return N == 0; }
+  [[nodiscard]] constexpr auto MaxSize() const noexcept -> SizeType {
+    return N;
+  }
 
   // Pointer to Data
   [[nodiscard]] PointerType constexpr Data() noexcept { return this->data; }
